@@ -1,0 +1,37 @@
+{% extends '../layout.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% block body %}
+
+
+    <div class="main-body">
+        <div class="page-wrapper">
+            <!-- [ Main Content ] start -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form action="{% url 'post-create' %}" method="post">
+                    {% csrf_token %}  
+                    {% for field in form.visible_fields %}
+                    <div class="form-group"> 
+                        <label for="{{ field.label }}">{{field.label}}</label>
+                    <div class="input-group mb-4">
+                     
+                      {% render_field field class="form-control" placeholder=field.label %}
+                    </div>
+                        {% for error in field.errors %}
+                            <span class="text-error" >{{ error }}</span>
+                        {% endfor %}
+                      
+                   </div>
+                    {% endfor %}
+                    {% translate "Save" as save_element %}
+                    <button type="submit" class="btn btn-primary">{{save_element}}</button>  
+                </form>
+                </div>
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </div>
+
+
+{%endblock%}

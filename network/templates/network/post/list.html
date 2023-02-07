@@ -1,0 +1,45 @@
+{% extends '../layout.html' %}
+{% load i18n %}
+{% load static %}
+{% block body %}
+<div class="row">
+    <div class="col-xl-12">
+    &nbsp;
+      </div>
+    </div>
+<div class="col-xl-12">
+  <h1>POSTS</h1>  
+</div>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        &nbsp;
+      </div>
+    </div>
+{%if user.is_authenticated %}
+<div class="row post-form" >
+    <div class="col-xl-12"  style="margin-bottom: 10px; margin-top: 50px;">
+    <h3>New Post</h3>
+    <form  style="margin-bottom: 0px; margin-top: 10px;" id="post-form">
+        
+        <!-- <div class="form-group">
+            <input class="form-control" id="compose-subject" placeholder="Subject">
+        </div> -->
+        <label for="title">Title</label>
+        <input type="text" required class="form-control" id="posttitle" placeholder="title" aria-label="Title"/>
+        <label for="content" style="margin-bottom: 10px; margin-top: 10px;">Content</label>
+        <textarea rows="4" required class="form-control" id="postbody" placeholder="Content" ></textarea>
+        <input style="margin-bottom: 10px; margin-top: 10px;" type="button" value="Post" class="btn btn-primary" id="submitpost" onclick="create_post()"/>
+    </form>  
+    </div>            
+</div>
+
+{% endif%}
+      
+        
+<div id="posts"></div>   
+
+
+
+{%endblock%}

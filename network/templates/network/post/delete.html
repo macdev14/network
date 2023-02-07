@@ -1,0 +1,26 @@
+{% extends '../layout.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+{%block body%}
+<div class="d-flex p-2 bd-highlight">
+
+
+</div>
+<div class="d-flex p-2 bd-highlight">
+    <div class="page-wrapper">
+        <!-- [ Main Content ] start -->
+        {% translate "Are you sure you want to delete" as delete_element %}
+        {% translate "Confirm" as confirm_delete_element %}
+        <div class="row">
+            <div class="col-sm-12">
+                <form method="post">
+                    {% csrf_token %}  
+                    <p> {{ delete_element }} "{{ object }}"?</p>
+                <button type="submit" class="btn btn-primary">{{confirm_delete_element}}</button>  
+                </form> 
+                </div>
+               
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+{%endblock%}

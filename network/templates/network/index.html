@@ -1,0 +1,67 @@
+{% extends "network/layout.html" %}
+{% load i18n %}
+{% block body %}
+
+
+
+ 
+    <div>
+        <h3>New Post</h3>
+        <form id="post-form" onsubmit="create_post()">
+            
+            <!-- <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div> -->
+            <textarea class="form-control" id="postbody" placeholder="Content"></textarea>
+            <input type="submit" value="Post" class="btn btn-primary" id="submitpost" />
+        </form>              
+    </div>
+
+    <!-- <div class="row">
+                       {{page_obj}} 
+        {% for object in page_obj %}
+
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{% url 'post-update' pk=object.id %}">
+
+                
+                <div class="card">
+                
+                    <div class="card-block">
+                        <p>
+                        
+                            {{ object }}
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+        {% endfor %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a></li>
+            {% endif %}
+            {% for i in page_obj.paginator.num_pages|get_range %}
+                
+                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{% trans "Last"%} &raquo;</a></li>
+
+
+            {% endif %}
+            
+        </ul>
+    </nav> -->
+       
+        
+
+
+{%endblock%}
