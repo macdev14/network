@@ -2,6 +2,8 @@
 
 function load_posts()
 {
+    let post = document.getElementById('posts');
+    post.style.display = 'block';
     fetch('api/post/all').then((response)=>response.json()).then( (object)=>{
         document.getElementById('posts').innerHTML = '';
         object.map((value, index)=>{
@@ -62,6 +64,8 @@ function load_posts()
 
 function load_following_posts()
 {
+    let post = document.getElementById('posts');
+    post.style.display = 'block';
     fetch('api/post/following').then((response)=>response.json()).then( (object)=>{
         document.getElementById('posts').innerHTML = '';
         object.map((value, index)=>{
@@ -123,9 +127,11 @@ function load_following_posts()
 
 function load_profile(id)
 {
-    fetch('api/post/following/'+id).then((response)=>response.json()).then( (object)=>{
+    fetch('api/post/profile/'+id).then((response)=>response.json()).then( (object)=>{
+        document.getElementById('post-form').style.display = 'none';
         document.getElementById('posts').innerHTML = '';
-        object.map((value, index)=>{
+        console.log(object)
+        object['data'].map((value, index)=>{
             console.log(value);
             
             return document.getElementById('posts').innerHTML+=`
@@ -211,6 +217,9 @@ function delete_post(id){
 function edit_post(id){
     let post = document.getElementById('posts');
     post.style.display = 'none';
+    let postform = document.getElementById('post-form');
+    postform.style.display = 'block';
+
     let following_post = document.getElementsByClassName('following-post')
 
     let body_post = document.getElementById('postbody')

@@ -229,11 +229,13 @@ class ListFollowingProfileAPI(LoginRequiredMixin, View):
         post = []
         user = User.objects.get(pk=pk)
         # for user in self.request.user.following.all():
-        post = Post.objects.get(user__pk=pk)
-        data = [ i.json() for i in post]
+        post = Post.objects.filter(user__pk=pk)
+        
+        data = [ i.json(request.user.id) for i in post]
+        print(data)
         if user in self.request.user.following.all():
             data['following'] = True
-        return JsonResponse({'data': data})
+        return JsonResponse({'data':data})
 
     
 class ListFollowingPostsAPI(LoginRequiredMixin, View):
