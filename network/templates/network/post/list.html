@@ -8,7 +8,7 @@
       </div>
     </div>
 <div class="col-xl-12">
-  <h1>POSTS</h1>  
+  <h1 id="post_header"><span id="username"></span> POSTS  <button id="follow" style="display: none;" class="btn btn-primary"></button> </h1>  
 </div>
 
 
@@ -18,7 +18,7 @@
       </div>
     </div>
 {%if user.is_authenticated %}
-<div class="row post-form" >
+<div class="row post-form">
     <div class="col-xl-12"  style="margin-bottom: 10px; margin-top: 50px;">
     <h3>New Post</h3>
     <form  style="margin-bottom: 0px; margin-top: 10px;" id="post-form">

@@ -19,5 +19,6 @@ urlpatterns = [
     path("api/post/all", views.ListPostsAPI.as_view(), name="api-post-all" ),
     path("api/post/following", views.ListFollowingPostsAPI.as_view(), name="api-post-following" ),
     path("api/post/profile/<int:pk>", views.ListFollowingProfileAPI.as_view(), name="api-post-following" ),
+    path("api/user/follow/", views.FollowUserAPI.as_view(), name="api-user-follow" ),
 
 ]

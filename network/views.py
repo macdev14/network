@@ -220,9 +220,10 @@ class UpdatePostAPI(CSRFExemptMixin, View):
         
 
         
+            
 
     
-class ListFollowingProfileAPI(LoginRequiredMixin, View):
+class ListFollowingProfileAPI(CSRFExemptMixin, LoginRequiredMixin, View):
     
 
     def get(self, request , pk):
@@ -232,13 +233,16 @@ class ListFollowingProfileAPI(LoginRequiredMixin, View):
         post = Post.objects.filter(user__pk=pk)
         
         data = [ i.json(request.user.id) for i in post]
-        print(data)
+        
         if user in self.request.user.following.all():
-            data['following'] = True
+            data.insert(0, {'following': True})
+        else:
+            data.insert(0, {'following': False})
+        print(data)
         return JsonResponse({'data':data})
 
     
-class ListFollowingPostsAPI(LoginRequiredMixin, View):
+class ListFollowingPostsAPI(CSRFExemptMixin,LoginRequiredMixin, View):
     
 
     def get(self, request , pk=None):
@@ -246,7 +250,7 @@ class ListFollowingPostsAPI(LoginRequiredMixin, View):
         
         for user in self.request.user.following.all():
             post.append(Post.objects.get(user=user))
-        return JsonResponse({'data': post})
+        return HttpResponse(json.dumps(post), content_type="application/json")
 
 class ListPostsAPI(View):
     
@@ -256,7 +260,7 @@ class ListPostsAPI(View):
             data = [i.json(request.user.id) for i in Post.objects.all()]
         else:
             data = [i.json() for i in Post.objects.all()]
-    
+        print(data)
         return HttpResponse(json.dumps(data), content_type="application/json")
 
         
@@ -285,3 +289,18 @@ class DeletePostAPI(CSRFExemptMixin, View):
         return JsonResponse({"error": "POST request required."}, status=400)
         
         
+class FollowUserAPI(CSRFExemptMixin, LoginRequiredMixin, View):
+
+    def post(self, request):
+        data = json.loads(request.body)
+        if User.objects.filter(pk=data.get('id')).exists(): 
+            user_object = User.objects.get(pk=data.get('id'))
+            if user_object in self.request.user.following.all():
+                request.user.following.remove(user_object)
+                return JsonResponse({"message": "User unfollowed successfully."}, status=201)
+            request.user.following.add(user_object)
+            user_object.followers.add(request.user)
+            user_object.save()
+            request.user.save()
+            return JsonResponse({"message": "User followed successfully."}, status=201)
+        return JsonResponse({"error": "User not found"}, status=400)

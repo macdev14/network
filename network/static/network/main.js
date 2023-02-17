@@ -123,14 +123,46 @@ function load_following_posts()
 
 }
 
+function follow(id){
+    fetch('api/user/follow/',{
+        method:'POST',
+        body: JSON.stringify({
+            id:id
+        
+        
+    }),
+}
+    ).then(res=>res.json()).then((r)=>{alert(r.message)})
+    .catch(
+        (e)=>(alert(e))
+    )
+    load_profile(id)
 
+}
 
 function load_profile(id)
 {
+    const btn = document.getElementById("follow");
+    btn.className="btn btn-primary float-right"
+   
+    // btn.innerHTML="Follow"
+    btn.onclick= ()=>follow(id)
+    document.getElementById('post_header').appendChild(btn)
     fetch('api/post/profile/'+id).then((response)=>response.json()).then( (object)=>{
-        document.getElementById('post-form').style.display = 'none';
+        document.getElementById('post-form').style.display = 'none'; 
+        let following = object['data'].shift()
+        console.log(following)
+        following.following ? btn.innerHTML="Following" :btn.innerHTML="Follow"
+        console.log(object['data'])
+        btn.style.display = 'block';
+       
+        console.log(object['data'])
         document.getElementById('posts').innerHTML = '';
-        console.log(object)
+        document.getElementById('username').innerHTML = object['data'][0].user.username
+        
+        
+        
+        // console.log(object)
         object['data'].map((value, index)=>{
             console.log(value);
             
@@ -244,6 +276,7 @@ function edit_post(id){
         })
     }).then((response)=>response.json()).then(
         (r)=>{console.log(r);
+            postform.style.display = 'none';
             return load_posts()}).catch(
                 (e)=>{return console.log(e); 
                     })

@@ -7,14 +7,43 @@ class User(AbstractUser):
     following = models.ManyToManyField('self', blank=True) 
 
     def json(self):
+        print('followers', self.following.all())
+    
         return {
             'id':    self.pk,
             'email':    str(self.email),
-            'followers': [i.json for i in self.followers.all()],
-            'following':   [i.json for i in self.following.all()],
+            'followers': [self.get_followers()],
+            'following':   [self.get_following()],
             'username': self.username
 
         }
+
+    def get_followers(self):
+        followers = list()
+        for i in self.followers.all():
+            followers.append( {
+            'id':    self.pk,
+            'email':    str(self.email),
+            # 'followers': [i.json(n-1) for i in self.followers.all()],
+            # 'following':   [i.json(n-1) for i in self.following.all()],
+            'username': self.username
+
+        })
+        return followers
+
+    def get_following(self):
+        following = list()
+        for i in self.following.all():
+            following.append( {
+            'id':    self.pk,
+            'email':    str(self.email),
+            # 'followers': [i.json(n-1) for i in self.followers.all()],
+            # 'following':   [i.json(n-1) for i in self.following.all()],
+            'username': self.username
+
+        })
+        return following
+            
         
 
 class Like(models.Model):
